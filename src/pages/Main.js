@@ -1,43 +1,12 @@
 import React, { useState } from 'react';
-import Joi from '@hapi/joi';
+import * as Yup from 'yup';
 import styled from 'styled-components/native';
 import { useForm, Controller } from 'react-hook-form';
 import { useNavigation } from '@react-navigation/native';
 
-const validationSchema = Joi.object().keys({
-  name: Joi.string()
-    .email({ tlds: false })
-    .required()
-    .empty()
-    .min(5)
-    .max(20)
-    .messages({
-      'string.base': `Precisa ser um texto`,
-      'string.email': `Precisa ser um email`,
-      'string.empty': `Preencha o dado`,
-      'string.min': `Precisa ter no minimo {#limit} caracteres`,
-      'string.max': `Nao pode passar de  {#limit} caracteres`,
-      'any.required': `Informe um nome`,
-    }),
+const validationSchema = Yup.object().shape({
+  name: Yup.string().email('E-mail inválido').required('Preencha o campo')
 });
-
-const resolver = (data, validationContext) => {
-  const { error, value: values } = validationSchema.validate(data, {
-    abortEarly: false,
-  });
-
-  return {
-    values: error ? {} : values,
-    errors: error
-      ? error.details.reduce((previous, currentError) => {
-          return {
-            ...previous,
-            [currentError.path[0]]: currentError,
-          };
-        }, {})
-      : {},
-  };
-};
 
 export default function App() {
   const [names, setNames] = useState([]);
@@ -46,8 +15,7 @@ export default function App() {
 
   const { control, handleSubmit, errors } = useForm({
     nativeValidation: true,
-    validationResolver: resolver,
-    validationContext: { test: 'test' },
+    validationSchema
   });
 
   const onChange = props => ({

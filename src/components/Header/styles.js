@@ -32,7 +32,7 @@ export const BackgroundImage = styled.Image.attrs({
   height: 260px;
   width: 160px;
 
-  opacity: 0.1;
+  opacity: 0.5;
 `;
 
 export const Title = styled.View`
