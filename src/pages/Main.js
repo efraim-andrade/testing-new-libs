@@ -62,12 +62,15 @@ export default function App() {
   );
 }
 
-const Container = styled.View`
-  padding: 0 16px;
+const Container = styled.ScrollView.attrs({
+  contentContainerStyle: {
 
-  flex: 1;
-  align-items: center;
-  justify-content: center;
+    alignItems: 'center',
+    justifyContent: 'flex-start',
+  }
+})`
+  padding: 200px 16px;
+
 
   background: #333;
 `;
@@ -114,11 +117,15 @@ const ButtonText = styled.Text`
   font-size: 18px;
 `;
 
-const AllNames = styled.View`
+const AllNames = styled.ScrollView.attrs({
+  contentContainerStyle: {
+    alignItems: 'center',
+    justifyContent: 'center',
+  }
+})`
   margin-top: 16px;
 
-  align-items: center;
-  justify-content: center;
+
 `;
 
 const Name = styled(ButtonText)`
